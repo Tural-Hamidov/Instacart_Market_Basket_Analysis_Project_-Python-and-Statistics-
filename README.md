@@ -1,11 +1,12 @@
-# Instacart_Market_Basket_Analysis_Project_-Python-and-Statistics-
+# Instacart Market Basket Analysis Project - Python and Statistics
+
 Exploratory data analysis and statistical analysis project using the Instacart dataset to uncover customer shopping behavior, ordering patterns, reorder habits, product popularity, and key purchasing trends.
 
 # 🛒 Instacart Customer Shopping Behavior Analysis
 
 ## 📌 Project Overview
 This project explores customer shopping behavior using the Instacart dataset.  
-The main goal was to clean the data, handle missing and duplicate values, and perform exploratory and statistical analysis to better understand how customers shop, reorder products, and build their carts.
+The main goal was to clean the data, handle missing values, inspect duplicate records, and perform exploratory and statistical analysis to better understand how customers shop, reorder products, and build their carts.
 
 The analysis focuses on:
 - ⏰ customer ordering patterns  
@@ -33,8 +34,8 @@ Using these five tables together makes it possible to explore customer purchasin
 The main objectives of this project were:
 
 - inspect and understand the structure of the datasets  
-- clean the data by handling missing values and duplicate records  
-- perform exploratory data analysis (EDA)  
+- clean the data by handling missing values and checking duplicate records  
+- perform exploratory data analysis  
 - apply basic statistical analysis to key numerical variables  
 - visualize shopping and reorder behavior  
 - generate business insights and recommendations  
@@ -45,12 +46,14 @@ The main objectives of this project were:
 Several preprocessing steps were performed before analysis:
 
 - missing `product_name` values were identified and filled with `"Unknown"`
+- missing `product_name` values were found to be concentrated in `department_id = 21`
 - missing `days_since_prior_order` values were confirmed to belong only to first-time orders and kept as `NaN`
 - missing `add_to_cart_order` values were found only in orders with 65+ items and replaced with `999` as a placeholder
 - duplicate rows in the `orders` dataset were removed
-- duplicate product names were checked case-insensitively and cleaned where needed
+- `product_id` values were checked and confirmed to be unique
+- repeated `product_name` values were inspected case-insensitively, but not removed, because products with different `product_id` values may represent different items
 
-These steps ensured the dataset was reliable and suitable for analysis.
+These steps helped preserve the structure and reliability of the dataset for analysis.
 
 ---
 
@@ -82,7 +85,9 @@ In addition to EDA, descriptive and statistical analysis was applied to key nume
 This included:
 - descriptive statistics using `.describe()`
 - mean and variance of `order_hour_of_day`
-- correlation analysis between `order_hour_of_day` and `days_since_prior_order`
+- normality testing before correlation analysis
+- Spearman correlation analysis between meaningful numerical variables
+- exclusion of identifier columns such as `order_id` and `user_id` from correlation analysis
 - boxplot analysis of reorder intervals
 - histogram-based distribution analysis of order times
 
@@ -97,6 +102,7 @@ This project was completed in **Python** using:
 - **matplotlib** — visualizations  
 - **seaborn** — statistical plots  
 - **plotly.express** — interactive charts  
+- **scipy** — statistical testing  
 
 The notebook was developed in **Google Colab**.
 
@@ -108,11 +114,13 @@ Some of the main findings from the analysis include:
 - Orders are concentrated during the daytime, especially between **10 AM and 3 PM**
 - Customers tend to shop more at the **beginning of the week**
 - Many customers reorder products on a **weekly cycle**, with a strong peak at **7 days**
-- The most popular and most reordered products are mostly **fresh produce, dairy, and everyday essentials**
+- The most popular and most reordered products are mostly **fresh produce, dairy, beverages, and everyday essentials**
 - Most orders are relatively small, typically containing around **5–6 items**
-- The products most often added to the cart first are also mostly **produce, dairy, and beverages**
+- The products most often added to the cart first are also mostly **produce, dairy, beverages, and other essentials**
 - Customer reorder behavior is generally moderate to high, suggesting repeated and routine shopping habits
-- Statistical analysis showed that order activity is centered around midday, while the correlation between order time and reorder interval is almost zero
+- Correlation analysis showed mostly weak relationships between the selected numerical variables
+- `order_id` and `user_id` were excluded from correlation analysis because they are identifier columns and do not represent meaningful measurable features
+- Spearman correlation was used because the selected variables were not assumed to be normally distributed
 
 ---
 
@@ -129,7 +137,7 @@ Because most orders are placed between late morning and afternoon, promotions an
 The strong 7-day reorder pattern suggests that many users follow a weekly grocery routine. This creates opportunities for reminder notifications, weekly bundles, and subscription-style services.
 
 ### 4. 🥛 Prioritize staple products in the app interface
-Fresh produce, dairy, and beverages dominate the most popular, most reordered, and first-added cart items. These categories should be highlighted more prominently in the app.
+Fresh produce, dairy, beverages, and everyday essentials dominate the most popular, most reordered, and first-added cart items. These categories should be highlighted more prominently in the app.
 
 ### 5. 🛒 Optimize the platform for small and medium-sized orders
 Since most orders contain around 5–6 items, the shopping experience can be improved with faster checkout, simplified cart-building, and one-click reorder options.
@@ -139,5 +147,8 @@ Customers with high reorder rates may respond well to loyalty programs and subsc
 
 ### 7. 📍 Use first-added cart items to improve product placement
 Products most commonly added first can be used to design smarter recommendation flows and improve the shopping experience from the start of the customer journey.
+
+### 8. 📊 Use predictive analytics carefully
+Because correlation analysis showed mostly weak relationships between the selected numerical variables, Instacart should not rely on correlation results alone. Instead, customer history, reorder behavior, product preferences, order timing, and basket-level features should be combined for more accurate customer targeting and predictive modeling.
 
 ---
