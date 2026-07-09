@@ -104,8 +104,6 @@ This project was completed in **Python** using:
 - **plotly.express** — interactive charts  
 - **scipy** — statistical testing  
 
-The notebook was developed in **Google Colab**.
-
 ---
 
 ## 🔑 Key Findings
